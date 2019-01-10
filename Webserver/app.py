@@ -131,4 +131,4 @@ def remove_from_db():
     return redirect(url_for(".admin"))
 
 
-app.run(host="0.0.0.0")
+app.run(host="0.0.0.0", port=80, debug=True)
