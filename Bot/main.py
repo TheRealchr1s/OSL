@@ -41,6 +41,8 @@ class OSL(commands.Bot):
         await self.http.send_message(514884538703282201, f"Error in {event_method}:```\n{traceback.format_exc()}\n```")
 
     async def on_command_error(self, ctx, exc):
+        if isinstance(exc, (commands.CommandNotFound,)):
+            return
         if isinstance(exc, commands.CommandOnCooldown):
             await ctx.send(f"Command is on cool down. Try again in {exc.retry_after:.0f}s.")
             self.log(f"{ctx.author}: Command on cool down. Retry {exc.retry_after:.0f}s")
@@ -77,7 +79,7 @@ class OSL(commands.Bot):
 
     async def prefix(self, bot, message):
         if self.prepared:
-            return commands.when_mentioned_or("!", "osl ")(bot, message)
+            return commands.when_mentioned_or("osl ")(bot, message)
         return "nothing is ready yet tm"
 
     async def cmd_check(self, ctx):
